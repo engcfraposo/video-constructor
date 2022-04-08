@@ -1,4 +1,7 @@
 const readline = require('readline-sync');
+const robots = {
+    text: require('./robots/text'),
+}
 
 const run = {
     //DONE: Add a function for include term to searchTerm
@@ -15,7 +18,7 @@ const run = {
         const content = {};
         content.searchTerm = run._askAndReturnSearchTerm();
         content.prefix = run._askAndReturnPrefixTerm();
-        console.log(content)
+        robots.text(content)
     }
 }
 
