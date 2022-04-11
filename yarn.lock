@@ -458,6 +458,11 @@ https-proxy-agent@^5.0.0:
     agent-base "6"
     debug "4"
 
+image-downloader@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/image-downloader/-/image-downloader-4.2.0.tgz#3bf19838b85e20c84486f7a1e0a1375916256210"
+  integrity sha512-vU0AzDhXobSrB185Mynj1J7qV8Lz3pJmbhRCWDgn5CG6M9SifE/Ap536uDSyYFrqLB9St+er/p3iqA+zEKmqfw==
+
 ip-regex@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-2.1.0.tgz#fa78bf5d2e6913c911ce9f819ee5146bb6d844e9"

@@ -9,9 +9,9 @@ const robots = {
 
 const run = {
     async init(){
-        //robots.input.exec();
-        //await robots.text();
-        //await robots.image();
+        robots.input.exec();
+        await robots.text();
+        await robots.image();
         
         const content = robots.state.load();
         console.dir(content, {depth: null});
