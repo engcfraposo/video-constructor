@@ -26,6 +26,7 @@ module.exports = axios.create({
     baseURL: 'https://en.wikipedia.org/w/',
 });
 ```
+
 - Pagina robots/text.js
 ```js
 const wikipedia = require('../services/wikipedia');
@@ -58,9 +59,11 @@ module.exports = new TextAnalyticsClient(
     new AzureKeyCredential(AzureTextAnalyticsCredentials.key)
 );
 ```
+
 - Pagina robots/text.js
 ```js
 const nlu = require('../services/nlu');
+
 const robot = {
      async _fetchAzureTextAnalyticsAndReturnKeywords(content){
         try {
@@ -76,6 +79,41 @@ const robot = {
         } catch (error) {
             console.log(error);
         }
+    },
+};
+```
+## Api: Bing ##
+A api do bing tem planos gratuitos porém é preciso ter conta no azure, pra isso você precisa acessar o site do [Azure](https://azure.microsoft.com/).
+
+- Pagina services/bing.js
+```js
+const axios = require('axios');
+
+module.exports = axios.create({
+    baseURL: BingSearchCredentials.endpoint,
+    headers: {
+        "Ocp-Apim-Subscription-Key": BingSearchCredentials.key,
+    },
+    params:{
+        safeSearch: 'strict',
+        count:2
+    }
+});
+```
+- Pagina robots/imagem.js
+```js
+const bing = require("../services/bing");
+
+const robot = {
+    async _fetchBingAndReturnImageLinks(query){
+       try {
+        const response = await bing.get("/search?q="+encodeURIComponent(query));
+        return response.data.value.map(image => {
+            return image.contentUrl;
+        });
+       } catch (error) {
+           console.log(error);
+       }
     },
 };
 ```
