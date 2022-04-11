@@ -5,9 +5,13 @@
   "license": "MIT",
   "dependencies": {
     "@azure/ai-text-analytics": "5.1.0",
+    "@azure/cognitiveservices-imagesearch": "^3.0.1",
+    "@azure/ms-rest-azure-js": "^2.1.0",
     "algorithmia": "^0.3.10",
     "axios": "^0.26.1",
+    "bing.search": "^1.0.1",
     "dotenv": "^16.0.0",
+    "image-downloader": "^4.2.0",
     "readline-sync": "^1.4.10",
     "sbd": "^1.0.19"
   }
