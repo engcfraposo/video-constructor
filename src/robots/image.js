@@ -2,6 +2,7 @@ const download = require('image-downloader')
 const state = require("./state");
 const bing = require("../services/bing");
 const path = require("path");
+const gm = require('gm');
 
 const robot = {
     //DONE: Add a function for include term to searchTerm and get images in the sentences
@@ -22,7 +23,7 @@ const robot = {
            console.log(error);
        }
     },
-    //TODO: Add a function to download all images
+    //DONE Add a function to download all images
     async _downloadAllImages(content){
         content.downloadedImages = [];
 
@@ -48,7 +49,7 @@ const robot = {
 
         }
     },
-    //TODO: Add a function to download an image
+    //DONE: Add a function to download an image
     async _downloadAndSave(imageUrl, filename){
         return download.image({
             url: imageUrl,
