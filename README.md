@@ -16,7 +16,7 @@ cd video-maker
 yarn
 ```
 ## Api: Wikipédia ##
-É necessário criar a sua chave de acesso para poder testar os robôs, pra isso você precisa acessar o site do [Wikipédia](/https://www.wikipedia.org/), aqui não tem muito segredo.
+A api do wikipédia é gratuita e de livre acesso, pra isso você precisa acessar o site do [Wikipédia](https://www.wikipedia.org/), aqui não tem muito segredo.
 
 - Pagina services/wikipedia.js
 ```js
@@ -26,11 +26,11 @@ module.exports = axios.create({
     baseURL: 'https://en.wikipedia.org/w/',
 });
 ```
--Pagina robots/text.js
+- Pagina robots/text.js
 ```js
 const wikipedia = require('../services/wikipedia');
-const robot ={
-async _fetchContentFromWikipedia(content){
+const robot = {
+    async _fetchContentFromWikipedia(content){
         try {
             const response = await wikipedia.get(`api.php?action=query&format=json&prop=extracts&exintro=&explaintext=&titles=${content.searchTerm}`);
             let extract = ""; 
@@ -38,6 +38,41 @@ async _fetchContentFromWikipedia(content){
                 extract = response.data.query.pages[pageId].extract;
             });
             content.sourceContentOriginal = extract;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+};
+```
+
+## Package: Azure Coginitives Services Text Analytics  ##
+É necessário criar a sua chave de acesso e determinar um endpoint para poder testar os serviços de análise de texto, pra isso você precisa acessar o site do [Azure](https://azure.microsoft.com/).
+
+- Pagina services/nlu.js
+```js
+const { AzureTextAnalyticsCredentials } = require('../credentials');
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+module.exports = new TextAnalyticsClient(
+    AzureTextAnalyticsCredentials.endpoint, 
+    new AzureKeyCredential(AzureTextAnalyticsCredentials.key)
+);
+```
+- Pagina robots/text.js
+```js
+const nlu = require('../services/nlu');
+const robot = {
+     async _fetchAzureTextAnalyticsAndReturnKeywords(content){
+        try {
+            const keyPhrasesInput = content.sentences.map(sentence => {
+                return sentence.text;
+            })
+            
+            const keyPhraseResult = await nlu.extractKeyPhrases(keyPhrasesInput);
+     
+            keyPhraseResult.forEach((document, index) => {
+                content.sentences[index].keywords = document.keyPhrases;
+            });
         } catch (error) {
             console.log(error);
         }
