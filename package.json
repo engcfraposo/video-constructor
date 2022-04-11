@@ -4,8 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@azure/ai-text-analytics": "5.1.0",
     "algorithmia": "^0.3.10",
     "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
     "readline-sync": "^1.4.10",
     "sbd": "^1.0.19"
   }

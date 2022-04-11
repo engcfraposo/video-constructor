@@ -1,9 +1,13 @@
+require("dotenv").config();
 const readline = require('readline-sync');
 const robots = {
     text: require('./robots/text'),
 }
 
 const run = {
+    content: {
+        maximumSentences: 9,
+    },
     //DONE: Add a function for include term to searchTerm
     _askAndReturnSearchTerm(){
         return readline.question("Type a Wikipedia search term:");
@@ -15,10 +19,9 @@ const run = {
         return prefixes[selectedPrefixIndex];
     },
     init(){
-        const content = {};
-        content.searchTerm = run._askAndReturnSearchTerm();
-        content.prefix = run._askAndReturnPrefixTerm();
-        robots.text(content)
+        run.content.searchTerm = run._askAndReturnSearchTerm();
+        run.content.prefix = run._askAndReturnPrefixTerm();
+        robots.text(run.content)
     }
 }
 

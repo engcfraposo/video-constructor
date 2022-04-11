@@ -1,5 +1,12 @@
 const sentenceBoundaryDetection = require('sbd');
 const axios = require('axios');
+const { AzureTextAnalyticsCredentials } = require('../credentials');
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+const nlu = new TextAnalyticsClient(
+    AzureTextAnalyticsCredentials.endpoint, 
+    new AzureKeyCredential(AzureTextAnalyticsCredentials.key)
+);
 
 //DONE: Create a new text bot with algorithmia
 const robot = {
@@ -33,12 +40,29 @@ const robot = {
                 images: []
             });
         })
-        console.log(content.sentences)
+    },
+    //DONE: limit number of sentences
+    _limitNumberOfSentences(content){
+        content.sentences = content.sentences.slice(0, content.maximumSentences);
+    },
+    //DONE: Add a function to extract keywords from each sentence
+    async _fetchAzureTextAnalyticsAndReturnKeywords(content){
+        const keyPhrasesInput = content.sentences.map(sentence => {
+            return sentence.text;
+        })
+        
+        const keyPhraseResult = await nlu.extractKeyPhrases(keyPhrasesInput);
+ 
+        keyPhraseResult.forEach((document, index) => {
+            content.sentences[index].keywords = document.keyPhrases;
+        });
     },
     async exec(content){
         await robot._fetchContentFromWikipedia(content)
         robot._sanitarizeContent(content)
         robot._breakContentIntoSentences(content)
+        robot._limitNumberOfSentences(content)
+        await robot._fetchAzureTextAnalyticsAndReturnKeywords(content)
     } 
 }
 
