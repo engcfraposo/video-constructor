@@ -2,10 +2,11 @@ const sentenceBoundaryDetection = require('sbd');
 const wikipedia = require('../services/wikipedia');
 const nlu = require('../services/nlu');
 const state = require('./state');
-//DONE: Create a new text bot with algorithmia
+// DONE: Create a new text bot with algorithmia
 const robot = {
     //DONE: fetch data on Wikipedia API
     async _fetchContentFromWikipedia(content){
+      console.log('> [text-robot] Fetching content from Wikipedia')
         try {
             const response = await wikipedia.get(`api.php?action=query&format=json&prop=extracts&exintro=&explaintext=&titles=${content.searchTerm}`);
             let extract = ""; 
@@ -13,6 +14,7 @@ const robot = {
                 extract = response.data.query.pages[pageId].extract;
             });
             content.sourceContentOriginal = extract;
+            console.log('> [text-robot] Fetching done!')
         } catch (error) {
             console.log(error);
         }
@@ -45,6 +47,7 @@ const robot = {
     },
     //DONE: Add a function to extract keywords from each sentence
     async _fetchAzureTextAnalyticsAndReturnKeywords(content){
+      console.log('> [text-robot] Fetching content from Azure Cognitive services')
         try {
             const keyPhrasesInput = content.sentences.map(sentence => {
                 return sentence.text;
@@ -55,11 +58,13 @@ const robot = {
             keyPhraseResult.forEach((document, index) => {
                 content.sentences[index].keywords = document.keyPhrases;
             });
+            console.log('> [text-robot] Fetching done!')
         } catch (error) {
             console.log(error);
         }
     },
     async exec(){
+        console.log('> [text-robot] Starting...')
         const content = state.load();
 
         await robot._fetchContentFromWikipedia(content)

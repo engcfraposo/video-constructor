@@ -6,7 +6,7 @@ const state = {
     save(content){
         const contentAsString = JSON.stringify(content);
         return fs.writeFileSync(contentFilePath, contentAsString);
-    },
+  },
     saveAsScript(content){
         const contentAsString = JSON.stringify(content);
         const scriptAsString = `var content = ${contentAsString};`;

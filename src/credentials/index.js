@@ -1,11 +1,14 @@
+const cognitive = require('../credentials/cognitive.json');
+const bing = require('../credentials/bing.json');
+
 const AzureTextAnalyticsCredentials={ 
-    key:process.env.AZURE_TEXT_ANALYTICS_KEY,
-    endpoint:process.env.AZURE_TEXT_ANALYTICS_ENDPOINT,
+  key:cognitive.apiKey,
+  endpoint:cognitive.endpoint,
 }
 
 const BingSearchCredentials={
-    key:process.env.BING_SEARCH_KEY,
-    endpoint:process.env.BING_SEARCH_ENDPOINT,
+  key:bing.apiKey,
+  endpoint:bing.endpoint,
 }
 
 module.exports = {

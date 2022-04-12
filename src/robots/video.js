@@ -3,12 +3,13 @@ const path = require("path");
 const sharp = require("sharp");
 const fs = require("fs");
 const os = require("os");
+const spawn = require('child_process').spawn;
 const rootPath = path.resolve(__dirname, '..')
 const fromRoot = relPath => path.resolve(rootPath, relPath)
 
 const robot = {
     //DONE: Add a function to covert all images
-    async _convertAllImages(content){
+     async _convertAllImages(content){
         for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
             await robot._convertImage(sentenceIndex);
         }
@@ -25,12 +26,14 @@ const robot = {
                 .grayscale()
                 .composite([{input: inputFile, gravity: 'center', }])
                 .toFile(blurFile)
+                console.log(`> [video-robot] Image converted: ${blurFile}`)
              } catch (error) {
                 await sharp(inputFile)
                 .extend(width, height)
                 .grayscale()
                 .composite([{input: inputFile, gravity: 'center', }])
                 .toFile(blurFile)
+                console.log(`> [video-robot] Image converted: ${blurFile}`)
              }
     },
     async _createAllSentenceImages(content) {
@@ -53,6 +56,7 @@ const robot = {
         const svgBuffer = Buffer.from(svgImage);
         await sharp(svgBuffer)
             .toFile(outputFile);
+        console.log(`> [video-robot] Sentence created: ${outputFile}`)
     },
     async _createYouTubeThumbnail() {
         const inputFile = path.join(__dirname, `../../content/0-output.png`)
@@ -73,7 +77,7 @@ const robot = {
             } else if(systemPlatform === 'win32'){
                 aerenderFilePath = '%programfiles%\Adobe\Adobe After Effects CC\Arquivos de suporte\aerender.exe'
             } else {
-                return reject(new Error('System not Supported'))
+                return reject()
             }
 
             const templateFilePath = path.join(__dirname, `../../templates/1/template.aep`)
@@ -98,6 +102,7 @@ const robot = {
         })
     },
     async exec(){
+        console.log('> [video-robot] Starting...')
         const content = state.load();
         await robot._convertAllImages(content);
         await robot._createAllSentenceImages(content);
