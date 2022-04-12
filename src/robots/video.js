@@ -7,11 +7,10 @@ const rootPath = path.resolve(__dirname, '..')
 const fromRoot = relPath => path.resolve(rootPath, relPath)
 
 const robot = {
-    //TODO: Add a function to covert all images
+    //DONE: Add a function to covert all images
     async _convertAllImages(content){
         for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
             await robot._convertImage(sentenceIndex);
-            //await robot._convertImageComposite(sentenceIndex);
         }
     },
     async _convertImage(sentenceIndex){
@@ -20,14 +19,12 @@ const robot = {
             const width = 1920
             const height = 1080
              try {
-                //const buffer = fs.readFileSync(inputFile);
                await sharp(inputFile)
                 .resize(width, height)
                 .blur(10)
                 .grayscale()
                 .composite([{input: inputFile, gravity: 'center', }])
                 .toFile(blurFile)
-                //await fs.writeFileSync(blurFile, output)
              } catch (error) {
                 await sharp(inputFile)
                 .extend(width, height)
