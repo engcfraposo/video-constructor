@@ -7,7 +7,10 @@ module.exports = axios.create({
         "Ocp-Apim-Subscription-Key": BingSearchCredentials.key,
     },
     params:{
+        imageType: "photo",
         safeSearch: 'strict',
-        count:2
+        count:2,
+        size: 'large',
+        license: 'public',
     }
 });

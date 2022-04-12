@@ -2,7 +2,6 @@ const download = require('image-downloader')
 const state = require("./state");
 const bing = require("../services/bing");
 const path = require("path");
-const gm = require('gm');
 
 const robot = {
     //DONE: Add a function for include term to searchTerm and get images in the sentences

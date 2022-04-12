@@ -10,8 +10,8 @@ const robots = {
 
 const run = {
     async init(){
-        robots.input.exec();
-        await robots.text();
+        //robots.input.exec();
+        //await robots.text();
         await robots.image();
         await robots.video();
         const content = robots.state.load();
