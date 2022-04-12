@@ -22,7 +22,7 @@ const robot = {
            console.log(error);
        }
     },
-    //TODO: Add a function to download all images
+    //DONE Add a function to download all images
     async _downloadAllImages(content){
         content.downloadedImages = [];
 
@@ -48,7 +48,7 @@ const robot = {
 
         }
     },
-    //TODO: Add a function to download an image
+    //DONE: Add a function to download an image
     async _downloadAndSave(imageUrl, filename){
         return download.image({
             url: imageUrl,
